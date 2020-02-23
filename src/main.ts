@@ -6,7 +6,7 @@ import * as github from '@actions/github'
 async function run(): Promise<void> {
   try {
     const octokit = new github.GitHub(core.getInput('token'))
-    const helpLabel = 'help-wanted'
+    const helpLabel = 'help wanted'
 
     const {owner, repo, number} = github.context.issue
 
