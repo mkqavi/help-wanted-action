@@ -31,12 +31,16 @@ ${JSON.stringify(issue)}`)
       })
     } else {
       core.debug('There are assignees, removing help wanted label...')
-      await octokit.issues.removeLabel({
-        owner,
-        repo,
-        issue_number: number,
-        name: helpLabel
-      })
+      if (
+        issue.data.labels.find(element => element.name === helpLabel) != null
+      ) {
+        await octokit.issues.removeLabel({
+          owner,
+          repo,
+          issue_number: number,
+          name: helpLabel
+        })
+      }
     }
   } catch (error) {
     core.setFailed(error.message)

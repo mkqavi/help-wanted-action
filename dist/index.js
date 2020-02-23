@@ -3536,12 +3536,14 @@ ${JSON.stringify(issue)}`);
             }
             else {
                 core.debug('There are assignees, removing help wanted label...');
-                yield octokit.issues.removeLabel({
-                    owner,
-                    repo,
-                    issue_number: number,
-                    name: helpLabel
-                });
+                if (issue.data.labels.find(element => element.name === helpLabel) != null) {
+                    yield octokit.issues.removeLabel({
+                        owner,
+                        repo,
+                        issue_number: number,
+                        name: helpLabel
+                    });
+                }
             }
         }
         catch (error) {
