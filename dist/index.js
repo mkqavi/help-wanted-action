@@ -3515,7 +3515,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const octokit = new github.GitHub(core.getInput('token'));
-            const helpLabel = 'help-wanted';
+            const helpLabel = 'help wanted';
             const { owner, repo, number } = github.context.issue;
             core.debug(`Getting issue #${number}`);
             const issue = yield octokit.issues.get({
