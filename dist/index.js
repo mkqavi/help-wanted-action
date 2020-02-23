@@ -3523,8 +3523,6 @@ function run() {
                 repo,
                 issue_number: number
             });
-            core.debug(`Issue:
-${JSON.stringify(issue)}`);
             if (issue.data.assignees.length === 0) {
                 core.debug('Nobody is assgined, adding help wanted label...');
                 yield octokit.issues.addLabels({
@@ -3535,8 +3533,8 @@ ${JSON.stringify(issue)}`);
                 });
             }
             else {
-                core.debug('There are assignees, removing help wanted label...');
                 if (issue.data.labels.find(element => element.name === helpLabel) != null) {
+                    core.debug('There are assignees and a help wanted label, removing help wanted label...');
                     yield octokit.issues.removeLabel({
                         owner,
                         repo,

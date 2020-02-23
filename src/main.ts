@@ -18,9 +18,6 @@ async function run(): Promise<void> {
       issue_number: number
     })
 
-    core.debug(`Issue:
-${JSON.stringify(issue)}`)
-
     if (issue.data.assignees.length === 0) {
       core.debug('Nobody is assgined, adding help wanted label...')
       await octokit.issues.addLabels({
@@ -30,10 +27,12 @@ ${JSON.stringify(issue)}`)
         labels: [helpLabel]
       })
     } else {
-      core.debug('There are assignees, removing help wanted label...')
       if (
         issue.data.labels.find(element => element.name === helpLabel) != null
       ) {
+        core.debug(
+          'There are assignees and a help wanted label, removing help wanted label...'
+        )
         await octokit.issues.removeLabel({
           owner,
           repo,
