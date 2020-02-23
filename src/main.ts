@@ -18,6 +18,9 @@ async function run(): Promise<void> {
       issue_number: number
     })
 
+    core.debug(`Issue:
+${JSON.stringify(issue)}`)
+
     if (issue.data.assignees.length === 0) {
       core.debug('Nobody is assgined, adding help wanted label...')
       await octokit.issues.addLabels({
