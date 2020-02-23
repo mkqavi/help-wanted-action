@@ -1,10 +1,13 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: "Help Wanted Action"
+description: "Assigns a help-wanted tag when there isn't anybody assigned to an issue"
+author: "Marvin König"
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  token:
+    description: "The GitHub Token"
+    default: ${{ github.token }}
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
+branding:
+  color: purple
+  icon: tag
