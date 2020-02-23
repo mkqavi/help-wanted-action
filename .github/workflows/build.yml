@@ -1,0 +1,19 @@
+name: "build"
+# rebuild any PRs and main branch changes
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
+      - "releases/*"
+
+jobs:
+  # make sure build/ci work properly
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          yarn
+          yarn all
