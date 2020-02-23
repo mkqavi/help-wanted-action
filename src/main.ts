@@ -1,16 +1,40 @@
+/*eslint @typescript-eslint/camelcase: ["error", {allow: ["issue_number"]}]*/
+
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as github from '@actions/github'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    const octokit = new github.GitHub(core.getInput('token'))
+    const helpLabel = 'help-wanted'
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const {owner, repo, number} = github.context.issue
 
-    core.setOutput('time', new Date().toTimeString())
+    core.debug(`Getting issue #${number}`)
+
+    const issue = await octokit.issues.get({
+      owner,
+      repo,
+      issue_number: number
+    })
+
+    if (issue.data.assignees.length === 0) {
+      core.debug('Nobody is assgined, adding help wanted label...')
+      await octokit.issues.addLabels({
+        owner,
+        repo,
+        issue_number: number,
+        labels: [helpLabel]
+      })
+    } else {
+      core.debug('There are assignees, removing help wanted label...')
+      await octokit.issues.removeLabel({
+        owner,
+        repo,
+        issue_number: number,
+        name: helpLabel
+      })
+    }
   } catch (error) {
     core.setFailed(error.message)
   }
