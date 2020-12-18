@@ -1,5 +1,3 @@
-/*eslint @typescript-eslint/camelcase: ["error", {allow: ["issue_number"]}]*/
-
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
